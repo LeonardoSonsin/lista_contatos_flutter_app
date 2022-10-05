@@ -44,7 +44,7 @@ class _ContactInfoScreenState extends State<ContactInfoScreen> {
         children: [
           ContactInfoImage(name: widget.name),
           ContactInfoName(name: widget.name),
-          const ContactInfoIcons(),
+          ContactInfoIcons(phone: widget.phone,),
           ContactInfoPhone(phone: widget.phone),
         ],
       ),
