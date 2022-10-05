@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../data/contact_dao.dart';
 
-void deleteContact(BuildContext context, String contactName) {
+void deleteContact(BuildContext context, String contactId, String contactName) {
   Widget cancelButton = TextButton(
     child: const Text("Não"),
     onPressed: () {
@@ -12,7 +12,7 @@ void deleteContact(BuildContext context, String contactName) {
   Widget continueButton = TextButton(
     child: const Text("Sim"),
     onPressed: () {
-      ContactDao().delete(contactName);
+      ContactDao().delete(contactId);
       Navigator.pop(context);
     },
   );

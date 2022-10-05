@@ -7,12 +7,19 @@ import '../add_new_contact_screen/widgets/custom_text_form_field.dart';
 
 class ContactEditInfoScreen extends StatefulWidget {
   const ContactEditInfoScreen(
-      {Key? key, required this.name, required this.phone, required this.id})
+      {Key? key,
+      required this.id,
+      required this.name,
+      required this.phone,
+      required this.email,
+      required this.image})
       : super(key: key);
 
   final String id;
   final String name;
   final String phone;
+  final String email;
+  final String image;
 
   @override
   State<ContactEditInfoScreen> createState() => _ContactEditInfoScreenState();
@@ -21,12 +28,16 @@ class ContactEditInfoScreen extends StatefulWidget {
 class _ContactEditInfoScreenState extends State<ContactEditInfoScreen> {
   TextEditingController nameController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController imageController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     nameController.text = widget.name;
     phoneController.text = widget.phone;
+    emailController.text = widget.email;
+    imageController.text = widget.image;
   }
 
   final _formKey = GlobalKey<FormState>();
@@ -75,6 +86,8 @@ class _ContactEditInfoScreenState extends State<ContactEditInfoScreen> {
                           id: widget.id,
                           name: nameController.text,
                           phone: phoneController.text,
+                          email: emailController.text,
+                          image: imageController.text,
                         ),
                       );
                       Navigator.pop(context);

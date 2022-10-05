@@ -7,7 +7,7 @@ class NewContactImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Icon(
       Icons.person_pin,
-      size: 180,
+      size: 100,
     );
   }
 }

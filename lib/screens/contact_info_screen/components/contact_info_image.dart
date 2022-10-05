@@ -1,26 +1,26 @@
 import 'package:flutter/material.dart';
 
 class ContactInfoImage extends StatelessWidget {
-  const ContactInfoImage({Key? key, required this.name}) : super(key: key);
+  const ContactInfoImage({Key? key, required this.name, required this.image})
+      : super(key: key);
 
   final String name;
+  final String image;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(top: 16),
-      width: 100,
-      height: 100,
-      decoration: BoxDecoration(
-          color: Colors.grey, borderRadius: BorderRadius.circular(50)),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            name[0].toUpperCase(),
-            style: const TextStyle(fontSize: 54, fontWeight: FontWeight.bold),
-          ),
-        ],
+    return Padding(
+      padding: const EdgeInsets.only(top: 16.0),
+      child: CircleAvatar(
+        radius: 80.0,
+        backgroundImage: image.isNotEmpty ? NetworkImage(image) : null,
+        backgroundColor: Colors.white,
+        child: image.isEmpty
+            ? Text(
+                name[0].toUpperCase(),
+                style: const TextStyle(fontSize: 100, fontWeight: FontWeight.bold),
+              )
+            : null,
       ),
     );
   }

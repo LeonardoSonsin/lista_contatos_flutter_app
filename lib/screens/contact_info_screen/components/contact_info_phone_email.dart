@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 
-class ContactInfoPhone extends StatelessWidget {
-  const ContactInfoPhone({Key? key, required this.phone}) : super(key: key);
+class ContactInfoPhoneEmail extends StatelessWidget {
+  const ContactInfoPhoneEmail(
+      {Key? key, required this.info, required this.text})
+      : super(key: key);
 
-  final String phone;
+  final String info;
+  final String text;
 
   @override
   Widget build(BuildContext context) {
@@ -12,18 +15,18 @@ class ContactInfoPhone extends StatelessWidget {
       child: Container(
         width: MediaQuery.of(context).size.width,
         height: 60,
-        margin: const EdgeInsets.all(8.0),
+        margin: const EdgeInsets.symmetric(horizontal: 8.0),
         decoration: BoxDecoration(
             color: Colors.grey[900], borderRadius: BorderRadius.circular(12)),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Padding(
-              padding: EdgeInsets.only(left: 16.0),
+            Padding(
+              padding: const EdgeInsets.only(left: 16.0),
               child: Text(
-                'Telefone',
-                style: TextStyle(fontSize: 16),
+                text,
+                style: const TextStyle(fontSize: 16),
               ),
             ),
             const SizedBox(
@@ -32,7 +35,7 @@ class ContactInfoPhone extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(left: 16.0),
               child: Text(
-                phone,
+                info,
                 style: const TextStyle(fontSize: 18),
               ),
             ),

@@ -14,6 +14,8 @@ class NewContactScreen extends StatefulWidget {
 class _NewContactScreenState extends State<NewContactScreen> {
   TextEditingController nameController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController imageController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
 
@@ -42,6 +44,8 @@ class _NewContactScreenState extends State<NewContactScreen> {
             formKey: _formKey,
             nameController: nameController,
             phoneController: phoneController,
+            emailController: emailController,
+            imageController: imageController,
           ),
           const NewContactImage(),
           CustomTextFormField(
@@ -54,7 +58,17 @@ class _NewContactScreenState extends State<NewContactScreen> {
               controller: phoneController,
               formatter: MaskTextInputFormatter(mask: "(##) # ####-####"),
               hintText: 'Telefone'),
-          const SizedBox(height: 300),
+          CustomTextFormField(
+              textInputType: TextInputType.text,
+              controller: emailController,
+              formatter: MaskTextInputFormatter(mask: null),
+              hintText: 'E-mail'),
+          CustomTextFormField(
+              textInputType: TextInputType.text,
+              controller: imageController,
+              formatter: MaskTextInputFormatter(mask: null),
+              hintText: 'Imagem'),
+          const SizedBox(height: 280),
         ],
       ),
     );
