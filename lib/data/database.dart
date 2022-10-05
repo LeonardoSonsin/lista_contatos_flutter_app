@@ -3,7 +3,7 @@ import 'package:path/path.dart';
 import 'contact_dao.dart';
 
 Future<Database> getDatabase() async {
-  final String path = join(await getDatabasesPath(), 'contact.db');
+  final String path = join(await getDatabasesPath(), 'contacts.db');
   return openDatabase(
     path,
     onCreate: (db, version) => db.execute(ContactDao.tableSql),

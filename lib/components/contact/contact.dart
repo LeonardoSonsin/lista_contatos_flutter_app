@@ -2,10 +2,13 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:lista_contatos_flutter_app/screens/contact_info_screen/contact_info_screen.dart';
 
+import 'delete_contact.dart';
+
 class Contact extends StatefulWidget {
-  const Contact({Key? key, required this.name, required this.phone})
+  const Contact({Key? key, required this.id, required this.name, required this.phone})
       : super(key: key);
 
+  final String id;
   final String name;
   final String phone;
 
@@ -38,11 +41,15 @@ class _ContactState extends State<Contact> {
           context,
           MaterialPageRoute(
             builder: (builder) => ContactInfoScreen(
+              id: widget.id,
               name: widget.name,
               phone: widget.phone,
             ),
           ),
         );
+      },
+      onLongPress: () {
+        deleteContact(context, widget.name);
       },
     );
   }

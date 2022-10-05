@@ -7,9 +7,10 @@ import '../add_new_contact_screen/widgets/custom_text_form_field.dart';
 
 class ContactEditInfoScreen extends StatefulWidget {
   const ContactEditInfoScreen(
-      {Key? key, required this.name, required this.phone})
+      {Key? key, required this.name, required this.phone, required this.id})
       : super(key: key);
 
+  final String id;
   final String name;
   final String phone;
 
@@ -71,6 +72,7 @@ class _ContactEditInfoScreenState extends State<ContactEditInfoScreen> {
                     if (_formKey.currentState!.validate()) {
                       ContactDao().update(
                         Contact(
+                          id: widget.id,
                           name: nameController.text,
                           phone: phoneController.text,
                         ),

@@ -6,9 +6,10 @@ import 'package:lista_contatos_flutter_app/screens/contact_info_screen/component
 import 'package:lista_contatos_flutter_app/screens/contact_info_screen/components/contact_info_phone.dart';
 
 class ContactInfoScreen extends StatefulWidget {
-  const ContactInfoScreen({Key? key, required this.name, required this.phone})
+  const ContactInfoScreen({Key? key, required this.id, required this.name, required this.phone})
       : super(key: key);
 
+  final String id;
   final String name;
   final String phone;
 
@@ -32,7 +33,7 @@ class _ContactInfoScreenState extends State<ContactInfoScreen> {
                     ),
                   ),
                   context: context,
-                  builder: (context) => ContactEditInfoScreen(name: widget.name, phone: widget.phone,),
+                  builder: (context) => ContactEditInfoScreen(id: widget.id, name: widget.name, phone: widget.phone,),
                 ).then((value) => setState(() {}));
               },
               icon: const Icon(Icons.edit))

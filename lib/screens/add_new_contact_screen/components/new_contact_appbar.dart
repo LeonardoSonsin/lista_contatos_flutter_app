@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
 
 import '../../../components/contact/contact.dart';
 import '../../../data/contact_dao.dart';
@@ -14,6 +15,7 @@ class NewContactAppBar extends StatelessWidget {
   final GlobalKey<FormState> formKey;
   final TextEditingController nameController;
   final TextEditingController phoneController;
+  final uuid = const Uuid();
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +46,7 @@ class NewContactAppBar extends StatelessWidget {
               if (formKey.currentState!.validate()) {
                 ContactDao().save(
                   Contact(
+                    id: uuid.v1(),
                     name: nameController.text,
                     phone: phoneController.text,
                   ),

@@ -42,7 +42,7 @@ class _ContactsScreenState extends State<ContactsScreen> {
                     }
                     return buildEmptyContacts();
                   }
-                  return const Text('Erro ao carregar lista de contatos X_X');
+                  return buildErrorLoadContacts();
               }
             }),
       ),
@@ -50,25 +50,22 @@ class _ContactsScreenState extends State<ContactsScreen> {
     );
   }
 
+  Center buildErrorLoadContacts() {
+    return const Center(
+      child: Text(
+        'Erro ao carregar \nseus contatos X_X',
+        style: TextStyle(fontSize: 24, color: Colors.grey),
+        textAlign: TextAlign.center,
+      ),
+    );
+  }
+
   Center buildEmptyContacts() {
-    return Center(
-      child: Wrap(
-        alignment: WrapAlignment.center,
-        crossAxisAlignment: WrapCrossAlignment.center,
-        direction: Axis.vertical,
-        spacing: 10,
-        children: const [
-          Icon(
-            Icons.error_outline,
-            size: 50,
-            color: Colors.grey,
-          ),
-          Text(
-            'Você ainda não tem nenhum \ncontato cadastrado =/',
-            style: TextStyle(fontSize: 24, color: Colors.grey),
-            textAlign: TextAlign.center,
-          )
-        ],
+    return const Center(
+      child: Text(
+        'Você ainda não possui \nnenhum contato =/',
+        style: TextStyle(fontSize: 24, color: Colors.grey),
+        textAlign: TextAlign.center,
       ),
     );
   }
