@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:lista_contatos_flutter_app/screens/add_new_contact_screen/widgets/custom_text_form_field.dart';
+import 'package:lista_contatos_flutter_app/components/contact/contact_avatar.dart';
 import 'package:lista_contatos_flutter_app/screens/add_new_contact_screen/components/new_contact_appbar.dart';
-import 'package:lista_contatos_flutter_app/screens/add_new_contact_screen/components/new_contact_image.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 class NewContactScreen extends StatefulWidget {
@@ -35,42 +34,64 @@ class _NewContactScreenState extends State<NewContactScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Form(
-      key: _formKey,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          NewContactAppBar(
-            formKey: _formKey,
-            nameController: nameController,
-            phoneController: phoneController,
-            emailController: emailController,
-            imageController: imageController,
-          ),
-          const NewContactImage(),
-          CustomTextFormField(
-              textInputType: TextInputType.name,
-              controller: nameController,
-              formatter: MaskTextInputFormatter(mask: null),
-              hintText: 'Nome'),
-          CustomTextFormField(
-              textInputType: TextInputType.number,
-              controller: phoneController,
-              formatter: MaskTextInputFormatter(mask: "(##) # ####-####"),
-              hintText: 'Telefone'),
-          CustomTextFormField(
-              textInputType: TextInputType.text,
-              controller: emailController,
-              formatter: MaskTextInputFormatter(mask: null),
-              hintText: 'E-mail'),
-          CustomTextFormField(
-              textInputType: TextInputType.text,
-              controller: imageController,
-              formatter: MaskTextInputFormatter(mask: null),
-              hintText: 'Imagem'),
-          const SizedBox(height: 280),
-        ],
+    return Padding(
+      padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+      child: Form(
+        key: _formKey,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            NewContactAppBar(
+              formKey: _formKey,
+              nameController: nameController,
+              phoneController: phoneController,
+              emailController: emailController,
+              imageController: imageController,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 16),
+              child: ContactAvatar(
+                  name:
+                      nameController.text.isNotEmpty ? nameController.text : ' ',
+                  image: imageController.text.isNotEmpty
+                      ? imageController.text
+                      : ' ',
+                  size: 60,
+                  fontSize: 54),
+            ),
+            buildTextFormField(TextInputType.name, nameController,
+                MaskTextInputFormatter(mask: null), 'Nome'),
+            buildTextFormField(TextInputType.number, phoneController,
+                MaskTextInputFormatter(mask: "(##) # ####-####"), 'Telefone'),
+            buildTextFormField(TextInputType.emailAddress, emailController,
+                MaskTextInputFormatter(mask: null), 'E-mail'),
+            buildTextFormField(TextInputType.url, imageController,
+                MaskTextInputFormatter(mask: null), 'Imagem'),
+          ],
+        ),
       ),
+    );
+  }
+
+  TextFormField buildTextFormField(
+      TextInputType textInputType,
+      TextEditingController controller,
+      MaskTextInputFormatter formatter,
+      String hintText) {
+    return TextFormField(
+      keyboardType: textInputType,
+      controller: controller,
+      inputFormatters: [formatter],
+      onChanged: hintText == 'Nome' || hintText == 'Imagem'
+          ? (text) => setState(() {})
+          : null,
+      decoration: InputDecoration(hintText: hintText, filled: true),
+      validator: (String? value) {
+        if (valueValidator(value)) {
+          return 'Campo Obrigatório!';
+        }
+        return null;
+      },
     );
   }
 }

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:lista_contatos_flutter_app/components/contact/contact_avatar.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 import '../../components/contact/contact.dart';
 import '../../data/contact_dao.dart';
-import '../add_new_contact_screen/widgets/custom_text_form_field.dart';
 
 class ContactEditInfoScreen extends StatefulWidget {
   const ContactEditInfoScreen(
@@ -51,87 +51,105 @@ class _ContactEditInfoScreenState extends State<ContactEditInfoScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Form(
-      key: _formKey,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-            margin: const EdgeInsets.symmetric(horizontal: 5),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Text(
-                    'Cancelar',
-                    style: TextStyle(
-                        decoration: TextDecoration.underline, fontSize: 14),
-                  ),
-                ),
-                const Text(
-                  'Alterar Contato',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                  ),
-                ),
-                TextButton(
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      ContactDao().update(
-                        Contact(
-                          id: widget.id,
-                          name: nameController.text,
-                          phone: phoneController.text,
-                          email: emailController.text,
-                          image: imageController.text,
-                        ),
-                      );
+    return Padding(
+      padding:
+          EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+      child: Form(
+        key: _formKey,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              margin: const EdgeInsets.symmetric(horizontal: 5),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  TextButton(
+                    onPressed: () {
                       Navigator.pop(context);
-                    }
-                  },
-                  child: const Text(
-                    'Salvar',
-                    style: TextStyle(
-                        decoration: TextDecoration.underline, fontSize: 14),
+                    },
+                    child: const Text(
+                      'Cancelar',
+                      style: TextStyle(
+                          decoration: TextDecoration.underline, fontSize: 14),
+                    ),
                   ),
-                ),
-              ],
+                  const Text(
+                    'Alterar Contato',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        ContactDao().update(
+                          Contact(
+                            id: widget.id,
+                            name: nameController.text,
+                            phone: phoneController.text,
+                            email: emailController.text,
+                            image: imageController.text,
+                          ),
+                        );
+                        Navigator.pop(context);
+                      }
+                    },
+                    child: const Text(
+                      'Salvar',
+                      style: TextStyle(
+                          decoration: TextDecoration.underline, fontSize: 14),
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-          Container(
-            margin: const EdgeInsets.only(bottom: 16),
-            width: 100,
-            height: 100,
-            decoration: BoxDecoration(
-                color: Colors.grey, borderRadius: BorderRadius.circular(50)),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  widget.name[0].toUpperCase(),
-                  style: const TextStyle(
-                      fontSize: 54, fontWeight: FontWeight.bold),
-                ),
-              ],
+            Padding(
+              padding: const EdgeInsets.only(bottom: 16.0),
+              child: ContactAvatar(
+                  name: nameController.text.isNotEmpty
+                      ? nameController.text
+                      : ' ',
+                  image: imageController.text.isNotEmpty
+                      ? imageController.text
+                      : ' ',
+                  size: 60,
+                  fontSize: 100),
             ),
-          ),
-          CustomTextFormField(
-              textInputType: TextInputType.name,
-              controller: nameController,
-              formatter: MaskTextInputFormatter(mask: null),
-              hintText: 'Nome'),
-          CustomTextFormField(
-              textInputType: TextInputType.number,
-              controller: phoneController,
-              formatter: MaskTextInputFormatter(mask: "(##) # #### - ####"),
-              hintText: 'Telefone'),
-          const SizedBox(height: 300),
-        ],
+            buildTextFormField(TextInputType.name, nameController,
+                MaskTextInputFormatter(mask: null), 'Nome'),
+            buildTextFormField(TextInputType.number, phoneController,
+                MaskTextInputFormatter(mask: "(##) # ####-####"), 'Telefone'),
+            buildTextFormField(TextInputType.emailAddress, emailController,
+                MaskTextInputFormatter(mask: null), 'E-mail'),
+            buildTextFormField(TextInputType.url, imageController,
+                MaskTextInputFormatter(mask: null), 'Imagem'),
+          ],
+        ),
       ),
+    );
+  }
+
+  TextFormField buildTextFormField(
+      TextInputType textInputType,
+      TextEditingController controller,
+      MaskTextInputFormatter formatter,
+      String hintText) {
+    return TextFormField(
+      keyboardType: textInputType,
+      controller: controller,
+      inputFormatters: [formatter],
+      onChanged: hintText == 'Nome' || hintText == 'Imagem'
+          ? (text) => setState(() {})
+          : null,
+      decoration: InputDecoration(hintText: hintText, filled: true),
+      validator: (String? value) {
+        if (valueValidator(value)) {
+          return 'Campo Obrigatório!';
+        }
+        return null;
+      },
     );
   }
 }

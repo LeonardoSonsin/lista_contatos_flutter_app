@@ -11,7 +11,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Flutter Contacts',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData.dark(),
       home: const ContactsScreen(),
     );

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lista_contatos_flutter_app/screens/contact_edit_info_screen/contact_edit_info_screen.dart';
 import 'package:lista_contatos_flutter_app/screens/contact_info_screen/components/contact_info_icons.dart';
-import 'package:lista_contatos_flutter_app/screens/contact_info_screen/components/contact_info_image.dart';
+import 'package:lista_contatos_flutter_app/components/contact/contact_avatar.dart';
 import 'package:lista_contatos_flutter_app/screens/contact_info_screen/components/contact_info_name.dart';
 import 'package:lista_contatos_flutter_app/screens/contact_info_screen/components/contact_info_phone_email.dart';
 
@@ -55,9 +55,11 @@ class _ContactInfoScreenState extends State<ContactInfoScreen> {
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          ContactInfoImage(name: widget.name, image: widget.image),
+          Padding(
+            padding: const EdgeInsets.only(top: 16.0),
+            child: ContactAvatar(name: widget.name, image: widget.image, size: 60, fontSize: 100),
+          ),
           ContactInfoName(name: widget.name),
           ContactInfoIcons(phone: widget.phone),
           ContactInfoPhoneEmail(info: widget.phone, text: 'Telefone'),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lista_contatos_flutter_app/components/contact/contact_avatar.dart';
 import 'package:lista_contatos_flutter_app/screens/contact_info_screen/contact_info_screen.dart';
 
 import 'delete_contact.dart';
@@ -27,18 +28,7 @@ class _ContactState extends State<Contact> {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: CircleAvatar(
-        backgroundImage:
-            widget.image.isNotEmpty ? NetworkImage(widget.image) : null,
-        backgroundColor: Colors.white,
-        child: widget.image.isEmpty
-            ? Text(
-                widget.name[0].toUpperCase(),
-                style:
-                    const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-              )
-            : null,
-      ),
+      leading: ContactAvatar(name: widget.name, image: widget.image, size: 20, fontSize: 24),
       title: Text(widget.name),
       subtitle: Text(widget.phone),
       trailing: null,
