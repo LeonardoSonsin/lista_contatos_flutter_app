@@ -10,13 +10,15 @@ class ContactDao {
   static const String _phone = 'phone';
   static const String _email = 'email';
   static const String _image = 'image';
+  static const String _favorite = 'favorite';
 
   static const String tableSql = 'CREATE TABLE $_tablename('
       '$_id TEXT, '
       '$_name TEXT, '
       '$_phone INTEGER, '
       '$_email TEXT, '
-      '$_image TEXT) ';
+      '$_image TEXT, '
+      '$_favorite TEXT) ';
 
   create(Contact contact) async {
     final Database database = await getDatabase();
@@ -50,6 +52,7 @@ class ContactDao {
     contactsMap[_phone] = contact.phone;
     contactsMap[_email] = contact.email;
     contactsMap[_image] = contact.image;
+    contactsMap[_favorite] = contact.favorite;
     return contactsMap;
   }
 
@@ -75,6 +78,7 @@ class ContactDao {
         phone: line[_phone],
         email: line[_email],
         image: line[_image],
+        favorite: line[_favorite],
       );
       contactsList.add(contact);
     }

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lista_contatos_flutter_app/data/contact_dao.dart';
-import 'package:lista_contatos_flutter_app/screens/contacts_screen/components/new_contact_button.dart';
 
 import '../../components/contact/contact.dart';
+import '../add_new_contact_screen/new_contact_screen.dart';
 
 class ContactsScreen extends StatefulWidget {
   const ContactsScreen({Key? key}) : super(key: key);
@@ -16,70 +16,8 @@ class _ContactsScreenState extends State<ContactsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: contactsAppBar(),
-      body: Padding(
-        padding: const EdgeInsets.only(top: 8, bottom: 70),
-        child: FutureBuilder<List<Contact>>(
-            future: ContactDao().findAll(),
-            builder: (context, snapshot) {
-              List<Contact>? items = snapshot.data;
-              switch (snapshot.connectionState) {
-                case ConnectionState.none:
-                  return buildLoadingState();
-                case ConnectionState.waiting:
-                  return buildLoadingState();
-                case ConnectionState.active:
-                  return buildLoadingState();
-                case ConnectionState.done:
-                  if (snapshot.hasData && items != null) {
-                    if (items.isNotEmpty) {
-                      return ListView.builder(
-                          itemCount: items.length,
-                          padding: const EdgeInsets.all(5.0),
-                          itemBuilder: (context, index) {
-                            Contact contact = items[index];
-                            return contact;
-                          });
-                    }
-                    return buildEmptyContacts();
-                  }
-                  return buildErrorLoadContacts();
-              }
-            }),
-      ),
-      floatingActionButton: const AddNewContactButton(),
-    );
-  }
-
-  Center buildErrorLoadContacts() {
-    return const Center(
-      child: Text(
-        'Erro ao carregar \nseus contatos X_X',
-        style: TextStyle(fontSize: 24, color: Colors.grey),
-        textAlign: TextAlign.center,
-      ),
-    );
-  }
-
-  Center buildEmptyContacts() {
-    return const Center(
-      child: Text(
-        'Você ainda não possui \nnenhum contato =/',
-        style: TextStyle(fontSize: 24, color: Colors.grey),
-        textAlign: TextAlign.center,
-      ),
-    );
-  }
-
-  Center buildLoadingState() {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: const [
-          CircularProgressIndicator(),
-          Text('Carregando...'),
-        ],
-      ),
+      body: contactsList(),
+      floatingActionButton: addContactButton(context),
     );
   }
 
@@ -104,6 +42,90 @@ class _ContactsScreenState extends State<ContactsScreen> {
           },
         )
       ],
+    );
+  }
+
+  Padding contactsList() {
+    return Padding(
+      padding: const EdgeInsets.only(top: 8, bottom: 70),
+      child: FutureBuilder<List<Contact>>(
+          future: ContactDao().findAll(),
+          builder: (context, snapshot) {
+            List<Contact>? items = snapshot.data;
+            switch (snapshot.connectionState) {
+              case ConnectionState.none:
+                return loadingState();
+              case ConnectionState.waiting:
+                return loadingState();
+              case ConnectionState.active:
+                return loadingState();
+              case ConnectionState.done:
+                if (snapshot.hasData && items != null) {
+                  if (items.isNotEmpty) {
+                    return ListView.builder(
+                        itemCount: items.length,
+                        padding: const EdgeInsets.all(5.0),
+                        itemBuilder: (context, index) {
+                          Contact contact = items[index];
+                          return contact;
+                        });
+                  }
+                  return emptyContacts();
+                }
+                return errorLoadContacts();
+            }
+          }),
+    );
+  }
+
+  FloatingActionButton addContactButton(BuildContext context) {
+    return FloatingActionButton(
+      onPressed: () {
+        showModalBottomSheet(
+          isScrollControlled: true,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(
+              top: Radius.circular(20),
+            ),
+          ),
+          context: context,
+          builder: (newContext) => const NewContactScreen(),
+        ).then((value) => setState(() {}));
+      },
+      child: const Icon(Icons.add),
+    );
+  }
+
+  Center loadingState() {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: const [
+          CircularProgressIndicator(),
+          Text('Carregando...'),
+        ],
+      ),
+    );
+  }
+
+  Center emptyContacts() {
+    return const Center(
+      child: Text(
+        'Você ainda não possui \nnenhum contato =/',
+        style: TextStyle(fontSize: 24, color: Colors.grey),
+        textAlign: TextAlign.center,
+      ),
+    );
+  }
+
+  Center errorLoadContacts() {
+    return const Center(
+      child: Text(
+        'Erro ao carregar \nseus contatos X_X',
+        style: TextStyle(fontSize: 24, color: Colors.grey),
+        textAlign: TextAlign.center,
+      ),
     );
   }
 }

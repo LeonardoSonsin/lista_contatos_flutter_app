@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lista_contatos_flutter_app/components/contact/contact_avatar.dart';
 import 'package:lista_contatos_flutter_app/screens/contact_info_screen/contact_info_screen.dart';
 
-import 'delete_contact.dart';
+import '../../data/contact_dao.dart';
 
 class Contact extends StatefulWidget {
   const Contact(
@@ -11,7 +11,8 @@ class Contact extends StatefulWidget {
       required this.name,
       required this.phone,
       required this.email,
-      required this.image})
+      required this.image,
+      required this.favorite})
       : super(key: key);
 
   final String id;
@@ -19,6 +20,7 @@ class Contact extends StatefulWidget {
   final String phone;
   final String email;
   final String image;
+  final String favorite;
 
   @override
   State<Contact> createState() => _ContactState();
@@ -28,33 +30,59 @@ class _ContactState extends State<Contact> {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: ContactAvatar(name: widget.name, image: widget.image, size: 20, fontSize: 24),
+      leading: ContactAvatar(
+          name: widget.name, image: widget.image, size: 20, fontSize: 24),
       title: Text(widget.name),
       subtitle: Text(widget.phone),
-      trailing: null,
-      /*IconButton(
+      trailing: IconButton(
         padding: const EdgeInsets.all(0.0),
         color: Colors.red,
-        icon: const Icon(Icons.favorite),
+        icon: Icon(widget.favorite == 'true' ? Icons.favorite : null),
         onPressed: () {},
-      ),*/
+      ),
       onTap: () {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (builder) => ContactInfoScreen(
+            builder: (newContext) => ContactInfoScreen(
               id: widget.id,
               name: widget.name,
               phone: widget.phone,
               email: widget.email,
               image: widget.image,
+              favorite: widget.favorite,
             ),
           ),
-        );
+        ).then((value) => setState((){}));
       },
       onLongPress: () {
-        deleteContact(context, widget.id, widget.name);
+        deleteContactDialog();
       },
     );
   }
+
+  deleteContactDialog() => showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text("Excluindo o contato '${widget.name}'"),
+            content: const Text("Deseja realmente excluir esse contato?"),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text("Cancelar"),
+              ),
+              TextButton(
+                onPressed: () {
+                  setState(() {
+                    ContactDao().delete(widget.id);
+                    Navigator.pop(context);
+                  });
+                },
+                child: const Text("Sim"),
+              ),
+            ],
+          );
+        },
+      );
 }

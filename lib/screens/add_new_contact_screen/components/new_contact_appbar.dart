@@ -54,6 +54,7 @@ class NewContactAppBar extends StatelessWidget {
                     phone: phoneController.text,
                     email: emailController.text,
                     image: imageController.text,
+                    favorite: 'false',
                   ),
                 );
                 Navigator.pop(context);

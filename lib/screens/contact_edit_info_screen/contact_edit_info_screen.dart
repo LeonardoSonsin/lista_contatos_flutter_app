@@ -12,7 +12,8 @@ class ContactEditInfoScreen extends StatefulWidget {
       required this.name,
       required this.phone,
       required this.email,
-      required this.image})
+      required this.image,
+      required this.favorite})
       : super(key: key);
 
   final String id;
@@ -20,6 +21,7 @@ class ContactEditInfoScreen extends StatefulWidget {
   final String phone;
   final String email;
   final String image;
+  final String favorite;
 
   @override
   State<ContactEditInfoScreen> createState() => _ContactEditInfoScreenState();
@@ -48,6 +50,16 @@ class _ContactEditInfoScreenState extends State<ContactEditInfoScreen> {
     }
     return false;
   }
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    phoneController.dispose();
+    emailController.dispose();
+    imageController.dispose();
+    super.dispose();
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -91,6 +103,7 @@ class _ContactEditInfoScreenState extends State<ContactEditInfoScreen> {
                             phone: phoneController.text,
                             email: emailController.text,
                             image: imageController.text,
+                            favorite: widget.favorite,
                           ),
                         );
                         Navigator.pop(context);

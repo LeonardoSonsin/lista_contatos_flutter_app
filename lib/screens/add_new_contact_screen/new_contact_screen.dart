@@ -29,6 +29,8 @@ class _NewContactScreenState extends State<NewContactScreen> {
   void dispose() {
     nameController.dispose();
     phoneController.dispose();
+    emailController.dispose();
+    imageController.dispose();
     super.dispose();
   }
 
