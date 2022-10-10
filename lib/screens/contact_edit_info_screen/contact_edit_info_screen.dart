@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lista_contatos_flutter_app/components/contact/contact_avatar.dart';
+import 'package:lista_contatos_flutter_app/themes/my_colors.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 import '../../components/contact/contact.dart';
@@ -60,7 +61,6 @@ class _ContactEditInfoScreenState extends State<ContactEditInfoScreen> {
     super.dispose();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -86,9 +86,10 @@ class _ContactEditInfoScreenState extends State<ContactEditInfoScreen> {
                           decoration: TextDecoration.underline, fontSize: 14),
                     ),
                   ),
-                  const Text(
+                  Text(
                     'Alterar Contato',
                     style: TextStyle(
+                      color: MyColors().white,
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
                     ),
@@ -150,13 +151,14 @@ class _ContactEditInfoScreenState extends State<ContactEditInfoScreen> {
       MaskTextInputFormatter formatter,
       String hintText) {
     return TextFormField(
+      style: TextStyle(color: MyColors().white),
       keyboardType: textInputType,
       controller: controller,
       inputFormatters: [formatter],
       onChanged: hintText == 'Nome' || hintText == 'Imagem'
           ? (text) => setState(() {})
           : null,
-      decoration: InputDecoration(hintText: hintText, filled: true),
+      decoration: InputDecoration(hintText: hintText, filled: true, hintStyle: TextStyle(color: MyColors().greyText)),
       validator: (String? value) {
         if (valueValidator(value)) {
           return 'Campo Obrigatório!';

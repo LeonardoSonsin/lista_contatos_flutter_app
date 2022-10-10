@@ -3,6 +3,8 @@ import 'package:lista_contatos_flutter_app/components/contact/contact_avatar.dar
 import 'package:lista_contatos_flutter_app/screens/add_new_contact_screen/components/new_contact_appbar.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
+import '../../themes/my_colors.dart';
+
 class NewContactScreen extends StatefulWidget {
   const NewContactScreen({Key? key}) : super(key: key);
 
@@ -68,7 +70,7 @@ class _NewContactScreenState extends State<NewContactScreen> {
             buildTextFormField(TextInputType.emailAddress, emailController,
                 MaskTextInputFormatter(mask: null), 'E-mail'),
             buildTextFormField(TextInputType.url, imageController,
-                MaskTextInputFormatter(mask: null), 'Imagem'),
+                MaskTextInputFormatter(mask: null), 'Imagem URL'),
           ],
         ),
       ),
@@ -81,13 +83,14 @@ class _NewContactScreenState extends State<NewContactScreen> {
       MaskTextInputFormatter formatter,
       String hintText) {
     return TextFormField(
+      style: TextStyle(color: MyColors().white),
       keyboardType: textInputType,
       controller: controller,
       inputFormatters: [formatter],
       onChanged: hintText == 'Nome' || hintText == 'Imagem'
           ? (text) => setState(() {})
           : null,
-      decoration: InputDecoration(hintText: hintText, filled: true),
+      decoration: InputDecoration(hintText: hintText, filled: true, hintStyle: TextStyle(color: MyColors().greyText)),
       validator: (String? value) {
         if (valueValidator(value)) {
           return 'Campo Obrigatório!';
