@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lista_contatos_flutter_app/components/contact/contact_avatar.dart';
 import 'package:lista_contatos_flutter_app/screens/contact_info_screen/contact_info_screen.dart';
+import 'package:lista_contatos_flutter_app/themes/my_colors.dart';
 
 import '../../data/contact_dao.dart';
 
@@ -30,13 +31,11 @@ class _ContactState extends State<Contact> {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: ContactAvatar(
-          name: widget.name, image: widget.image, size: 20, fontSize: 24),
-      title: Text(widget.name),
-      subtitle: Text(widget.phone),
+      leading: ContactAvatar(name: widget.name, image: widget.image, size: 20, fontSize: 24),
+      title: Text(widget.name, style: TextStyle(color: MyColors().white,),),
+      subtitle: Text(widget.phone, style: TextStyle(color: MyColors().white,),),
       trailing: IconButton(
-        padding: const EdgeInsets.all(0.0),
-        color: Colors.red,
+        color: MyColors().red,
         icon: Icon(widget.favorite == 'true' ? Icons.favorite : null),
         onPressed: () {},
       ),

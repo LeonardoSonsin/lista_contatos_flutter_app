@@ -5,7 +5,7 @@ import 'package:lista_contatos_flutter_app/screens/contact_edit_info_screen/cont
 import 'package:lista_contatos_flutter_app/screens/contact_info_screen/components/contact_info_icons.dart';
 import 'package:lista_contatos_flutter_app/components/contact/contact_avatar.dart';
 import 'package:lista_contatos_flutter_app/screens/contact_info_screen/components/contact_info_name.dart';
-import 'package:lista_contatos_flutter_app/screens/contact_info_screen/components/contact_info_phone_email.dart';
+import 'package:lista_contatos_flutter_app/screens/contact_info_screen/components/contact_info_email.dart';
 
 class ContactInfoScreen extends StatefulWidget {
   const ContactInfoScreen(
@@ -89,9 +89,7 @@ class _ContactInfoScreenState extends State<ContactInfoScreen> {
             onPressed: () {
               favoriteContact();
             },
-            icon: Icon(isFavorite()
-                ? Icons.favorite
-                : Icons.favorite_border),
+            icon: Icon(isFavorite() ? Icons.favorite : Icons.favorite_border),
           ),
         ],
       ),
@@ -106,10 +104,9 @@ class _ContactInfoScreenState extends State<ContactInfoScreen> {
                 size: 60,
                 fontSize: 100),
           ),
-          ContactInfoName(name: widget.name),
+          ContactInfoNamePhone(name: widget.name, phone: widget.phone),
           ContactInfoIcons(phone: widget.phone),
-          ContactInfoPhoneEmail(info: widget.phone, text: 'Telefone'),
-          ContactInfoPhoneEmail(info: widget.email, text: 'Email'),
+          ContactInfoEmail(info: widget.email, text: 'Email'),
         ],
       ),
     );
